@@ -23,3 +23,10 @@ python main.py
 - sslspeedy2 (vpnsoso)
 
 - 各类针对防火墙的规则，正则表达式匹配即可
+
+## 开发者
+
+```shell script
+# 注意现在github默认分支为main，改为master
+git push -u origin master
+```
