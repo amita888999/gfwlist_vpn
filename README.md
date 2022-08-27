@@ -29,4 +29,13 @@ python main.py
 ```shell script
 # 注意现在github默认分支为main，改为master
 git push -u origin master
+
+# 问题: git pull fatal: refusing to merge unrelated histories
+# 解决: git pull --allow-unrelated-histories
+
+# git push 太慢
+https://blog.csdn.net/z1026544682/article/details/86635367
+https://ipaddress.com/website/github.global.ssl.fastly.net#ipinfo
+https://ipaddress.com/website/github.com#ipinfo
+
 ```
