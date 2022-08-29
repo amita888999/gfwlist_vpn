@@ -13,8 +13,12 @@ gfwlist_url = 'https://bitbucket.org/gfwlist/gfwlist/raw/HEAD/gfwlist.txt'
 # 编码的原始文件
 gfwlist_base64_file = "res/base64.txt"
 
+# 编码的转换文件
+gfwlist_base64_convert_file = "res/base64_convert.txt"
+
 # 生成的白名单文件
-out_whitelist_file = "res/whitelist.txt"
+out_whitelist_file = "res/block_domain.txt"
+
 
 ################################################################################
 
@@ -61,14 +65,18 @@ def deal_part(part):
 
 # 处理一行
 def deal_line(coll, line_content):
-    # 包含此文字后的不处理 "General List End"
+    # 包含此文字后的不处理
+    end_string = "General List End"
     parts = line_content.split("\n")
+    line_no = 0
     for part in parts:
+        line_no += 1
+        if part.find(end_string) >= 0:
+            # 停止处理
+            print("停止处理行:", line_no)
+            return
         if part.startswith("!"):
             continue
-        if part.find("General List End") >= 0:
-            # 停止处理
-            return
         p = deal_part(part)
         if p:
             coll.append(p)
@@ -100,12 +108,14 @@ def get_firewall_content_from_file(file):
 # 解析网络路径
 def get_firewall_content_from_url(url):
     page = requests.get(url).text
-    file = gfwlist_base64_file
-    with open(file, "w", encoding="utf-8") as f:
+    with open(gfwlist_base64_file, "w", encoding="utf-8") as f:
         f.write(page)
-        print("写入文件", file)
+        print("写入文件", gfwlist_base64_file)
     base64_content = page.replace("\n", "")
     line_content = str(base64.b64decode(base64_content), encoding='utf-8')
+    with open(gfwlist_base64_convert_file, "w", encoding="utf-8") as f:
+        f.write(line_content)
+        print("写入文件", gfwlist_base64_convert_file)
     return deal_content(line_content)
 
 
